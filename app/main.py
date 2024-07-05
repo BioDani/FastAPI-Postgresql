@@ -1,20 +1,19 @@
+# Imports from fastapi
 from fastapi import FastAPI
 from fastapi.params import Body
 
+# Schemas
 from .schemas.post import Post
 
+# Routers
+from .routers.healh_check import router_health_check
+from .routers.posts import router_post
+
+# Run app and server
 app = FastAPI()
 app.title = "Blog FastAPI - PostgreSQL"
+app.description = "Simple rest-full API with PostgreSQL."
+app.version = "1.0"
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World, Daniel."}
-
-@app.get("/posts")
-async def root():
-    return {"message": "Hello World, Daniel."}
-
-@app.post("/createposts")
-async def create_post(new_post: Post):
-    print(new_post)
-    return {"new_post": "data"}
+app.include_router(router_health_check)
+app.include_router(router_post)
